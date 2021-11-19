@@ -23,8 +23,8 @@ var rootCmd = &cobra.Command{
 
 		for i := 0; i < count; i++ {
 			go func(ch chan<- int, index int) {
-				image := generator.NewImage(width, height)
-				image.SaveImage("./", "img_"+strconv.Itoa(index))
+				generator := generator.NewGenerator(generator.IMAGE, width, height, "./", "img_"+strconv.Itoa(index))
+				generator.Generate()
 				ch <- 1
 			}(doneCh, i)
 		}

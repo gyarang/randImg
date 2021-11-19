@@ -12,10 +12,12 @@ import (
 type imageGenerator struct {
 	width  int
 	height int
+	path string
+	name string
 	img    image.Image
 }
 
-func NewImage(width int, height int) *imageGenerator {
+func newImageGenerator(width int, height int, path, name string) *imageGenerator {
 	upLeft := image.Point{0, 0}
 	lowRight := image.Point{width, height}
 	img := image.NewRGBA(image.Rectangle{upLeft, lowRight})
@@ -27,7 +29,7 @@ func NewImage(width int, height int) *imageGenerator {
 		}
 	}
 
-	i := &imageGenerator{width: width, height: height, img: img}
+	i := &imageGenerator{width: width, height: height, path: path, name: name, img: img}
 
 	return i
 }
@@ -37,8 +39,8 @@ func getRandomColor() color.RGBA {
 	return r
 }
 
-func (i *imageGenerator) SaveImage(path, name string) error {
-	out, err := os.Create(name + ".png")
+func (i imageGenerator) Generate() error {
+	out, err := os.Create(i.path + i.name + ".png")
 	if err != nil {
 		log.Fatal(err)
 		return err
