@@ -40,7 +40,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().Int("width", 100, "Width of the image")
-	rootCmd.Flags().Int("height", 100, "Height of the image")
-	rootCmd.Flags().Int("count", 1, "Number of the images")
+	rootCmd.Flags().IntP("width", "W", 100, "Width of the image")
+	rootCmd.Flags().IntP("height", "H", 100, "Height of the image")
+	rootCmd.Flags().IntP("count", "C", 1, "Number of the images")
 }
