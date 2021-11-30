@@ -12,8 +12,8 @@ import (
 type imageGenerator struct {
 	width  int
 	height int
-	path string
-	name string
+	path   string
+	name   string
 	img    image.Image
 }
 

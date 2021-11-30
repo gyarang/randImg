@@ -31,4 +31,3 @@ func BenchmarkGenerate100(b *testing.B) {
 	b.ResetTimer()
 	image.Generate()
 }
-
