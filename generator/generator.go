@@ -3,7 +3,7 @@ package generator
 type GenerateType int
 
 const (
-	IMAGE GenerateType = 1 + iota
+	IMAGE GenerateType = iota
 	VIDEO
 )
 
