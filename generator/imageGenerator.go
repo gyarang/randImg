@@ -18,20 +18,24 @@ type imageGenerator struct {
 }
 
 func newImageGenerator(width int, height int, path, name string) *imageGenerator {
-	upLeft := image.Point{0, 0}
-	lowRight := image.Point{width, height}
-	img := image.NewRGBA(image.Rectangle{upLeft, lowRight})
+	img := generateRandomImage(width, height)
+	i := &imageGenerator{width: width, height: height, path: path, name: name, img: img}
+	return i
+}
 
-	for x := 0; x < width; x++ {
-		for y := 0; y < height; y++ {
+func generateRandomImage(w, h int) *image.RGBA {
+	start := image.Point{0, 0}
+	end := image.Point{w, h}
+	img := image.NewRGBA(image.Rectangle{start, end})
+
+	for x := 0; x < w; x++ {
+		for y := 0; y < h; y++ {
 			pixel := getRandomColor()
 			img.Set(x, y, pixel)
 		}
 	}
 
-	i := &imageGenerator{width: width, height: height, path: path, name: name, img: img}
-
-	return i
+	return img
 }
 
 func getRandomColor() color.RGBA {
