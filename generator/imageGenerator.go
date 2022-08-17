@@ -24,9 +24,9 @@ func newImageGenerator(width int, height int, path, name string) *imageGenerator
 }
 
 func generateRandomImage(w, h int) *image.RGBA {
-	start := image.Point{0, 0}
-	end := image.Point{w, h}
-	img := image.NewRGBA(image.Rectangle{start, end})
+	start := image.Point{}
+	end := image.Point{X: w, Y: h}
+	img := image.NewRGBA(image.Rectangle{Min: start, Max: end})
 
 	for x := 0; x < w; x++ {
 		for y := 0; y < h; y++ {
@@ -38,9 +38,16 @@ func generateRandomImage(w, h int) *image.RGBA {
 	return img
 }
 
-func getRandomColor() color.RGBA {
-	r := color.RGBA{uint8(rand.Uint32()), uint8(rand.Uint32()), uint8(rand.Uint32()), 0xff}
-	return r
+func getRandomColor() *color.RGBA {
+	base := rand.Uint32()
+	r := uint8(base)
+	base = base >> 8
+	g := uint8(base)
+	base = base >> 8
+	b := uint8(base)
+
+	c := &color.RGBA{R: r, G: g, B: b, A: 0xff}
+	return c
 }
 
 func (i imageGenerator) Generate() error {
