@@ -18,10 +18,21 @@ var rootCmd = &cobra.Command{
 		height, _ := cmd.Flags().GetInt("height")
 
 		bar := progressbar.Default(int64(count))
+		ch := make(chan generator.Generator)
 
 		for i := 0; i < count; i++ {
-			generator := generator.NewGenerator(generator.IMAGE, width, height, "./", "img_"+strconv.Itoa(i))
-			generator.Generate()
+			go func(i int) {
+				generator := generator.NewGenerator(generator.IMAGE, width, height, "./", "img_"+strconv.Itoa(i))
+				ch <- generator
+			}(i)
+		}
+
+		for i := 0; i < count; i++ {
+			g := <-ch
+			err := g.Generate()
+			if err != nil {
+
+			}
 			bar.Add(1)
 		}
 	},

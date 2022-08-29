@@ -7,6 +7,6 @@ const (
 	VIDEO
 )
 
-type generator interface {
+type Generator interface {
 	Generate() error
 }
