@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"image/png"
@@ -38,7 +39,7 @@ func generateRandomImage(w, h int) *image.RGBA {
 	return img
 }
 
-func getRandomColor() *color.RGBA {
+func getRandomColor() color.RGBA {
 	base := rand.Uint32()
 	r := uint8(base)
 	base = base >> 8
@@ -46,14 +47,14 @@ func getRandomColor() *color.RGBA {
 	base = base >> 8
 	b := uint8(base)
 
-	c := &color.RGBA{R: r, G: g, B: b, A: 0xff}
+	c := color.RGBA{R: r, G: g, B: b}
 	return c
 }
 
 func (i imageGenerator) Generate() error {
 	out, err := os.Create(i.path + i.name + ".png")
 	if err != nil {
-		log.Fatal(err)
+		err = fmt.Errorf("", err)
 		return err
 	}
 	defer out.Close()

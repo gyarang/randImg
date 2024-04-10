@@ -19,10 +19,36 @@ var rootCmd = &cobra.Command{
 
 		bar := progressbar.Default(int64(count))
 
+		c := make(chan error)
+
 		for i := 0; i < count; i++ {
-			generator := generator.NewGenerator(generator.IMAGE, width, height, "./", "img_"+strconv.Itoa(i))
-			generator.Generate()
+			num := i
+			go func(num int) {
+				generator := generator.NewGenerator(generator.IMAGE, width, height, "./", "img_"+strconv.Itoa(num))
+				err := generator.Generate()
+				c <- err
+			}(num)
+		}
+
+		resultMap := make(map[string]int)
+		failCnt := 0
+		for i := 0; i < count; i++ {
+			err := <-c
+			if err != nil {
+				failCnt++
+				if resultMap[err.Error()] == 0 {
+					resultMap[err.Error()] = 1
+				} else {
+					resultMap[err.Error()]++
+				}
+			}
 			bar.Add(1)
+		}
+
+		if failCnt > 0 {
+			for k, v := range resultMap {
+				println(k, ":", v)
+			}
 		}
 	},
 }
