@@ -51,17 +51,15 @@ func getRandomColor() color.RGBA {
 	return c
 }
 
-func (i imageGenerator) Generate() error {
+func (i *imageGenerator) Generate() error {
 	out, err := os.Create(i.path + i.name + ".png")
 	if err != nil {
-		err = fmt.Errorf("", err)
 		return err
 	}
-	defer out.Close()
-	if err := png.Encode(out, i.img); err != nil {
-		log.Fatal(err)
-		return err
-	}
+	defer func() {
+		err = out.Close()
+	}()
+	_ = png.Encode(out, i.img)
 
-	return nil
+	return err
 }
