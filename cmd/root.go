@@ -36,10 +36,11 @@ var rootCmd = &cobra.Command{
 			err := <-c
 			if err != nil {
 				failCnt++
-				if resultMap[err.Error()] == 0 {
-					resultMap[err.Error()] = 1
-				} else {
+				_, ok := resultMap[err.Error()]
+				if ok {
 					resultMap[err.Error()]++
+				} else {
+					resultMap[err.Error()] = 1
 				}
 			}
 			bar.Add(1)
