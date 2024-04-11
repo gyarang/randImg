@@ -1,11 +1,9 @@
 package generator
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"image/png"
-	"log"
 	"math/rand"
 	"os"
 )
